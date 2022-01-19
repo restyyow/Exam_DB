@@ -1,5 +1,5 @@
-
-2. Show the top performing person per territory per month in terms of total sales (unit price *
+Query #2
+1. Show the top performing person per territory per month in terms of total sales (unit price *
 quantity)
 
 

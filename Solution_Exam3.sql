@@ -1,5 +1,5 @@
-
-3. Rank each territory according to total sales (unit price * quantity) for a given month
+Query #3
+1. Rank each territory according to total sales (unit price * quantity) for a given month
 
 
 ------------------------
