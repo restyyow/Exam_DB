@@ -15,17 +15,17 @@ use AdventureWorks2008R2
 go
 
 create procedure Production.uspProduct_Paging
+@pagenumber int,
 @rowsofpage int
 as
 begin	
-	declare @pagenumber int
+
 	declare @maxtablepage numeric(30)
-	set @pagenumber = 0
 	select @maxtablepage = count(1) from Production.Product
 	select @maxtablepage = CEILING(@maxtablepage/@rowsofpage)
 		while @maxtablepage >= @pagenumber
 			begin
-				select * from Production.Product order by ProductID
+				select *,COUNT(1) OVER () as TotalCount from Production.Product order by ProductID
 				OFFSET (@pagenumber)*@rowsofpage ROWS
 				FETCH NEXT @rowsofpage ROWS ONLY
 			set @pagenumber = @pagenumber + 1
@@ -33,4 +33,4 @@ begin
 end
 go
 
-exec Production.uspProduct_Paging 30
+exec Production.uspProduct_Paging 0,30
