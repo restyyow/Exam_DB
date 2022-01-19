@@ -63,13 +63,15 @@ go
 ----- Final Answer -----
 ------------------------
 
-with cte_1 as (select ProductID, Name, ProductNumber, ProductSubcategoryID, SellStartDate, SellEndDate, datename(month,SellEndDate)+' '+datename(year,SellEndDate) as MonthlySales
-from Production.Product)
+begin
+	with cte_1 as (select ProductID, Name, ProductNumber, ProductSubcategoryID, SellStartDate, SellEndDate, datename(month,SellEndDate)+' '+datename(year,SellEndDate) as MonthlySales
+	from Production.Product)
 
-select count(a.ProductID) as Product_Count_Sold, b.Name as Product_SubCategory_Name, c.Name as Product_Category_Name, a.MonthlySales from
-cte_1 a left join Production.ProductSubcategory b on a.ProductSubcategoryID = b.ProductSubcategoryID
-left join Production.ProductCategory c on c.ProductCategoryID = b.ProductCategoryID
-where a.MonthlySales is not null 
-group by b.Name,c.Name,a.MonthlySales
-order by MonthlySales,Product_Count_Sold
+	select count(a.ProductID) as Product_Count_Sold, b.Name as Product_SubCategory_Name, c.Name as Product_Category_Name, a.MonthlySales from
+	cte_1 a left join Production.ProductSubcategory b on a.ProductSubcategoryID = b.ProductSubcategoryID
+	left join Production.ProductCategory c on c.ProductCategoryID = b.ProductCategoryID
+	where a.MonthlySales is not null 
+	group by b.Name,c.Name,a.MonthlySales
+	order by MonthlySales,Product_Count_Sold
+end
 go
