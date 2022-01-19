@@ -1,9 +1,14 @@
 
 1. Show the top selling product in terms order quantity of sales per product category for each month
 
+
+
 ------------------------
 ----- Final Answer -----
 ------------------------
+
+use AdventureWorks2008R2
+go
 
 begin
 	with cte_1 as (select ProductID, Name, ProductNumber, ProductSubcategoryID, SellStartDate, SellEndDate, datename(month,SellEndDate)+' '+datename(year,SellEndDate) as MonthlySales
@@ -18,9 +23,26 @@ begin
 end
 go
 
----------------------------
---------- TESTING ---------
----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------
+--------- SCRATCH TESTING ---------
+-----------------------------------
 
 
 use AdventureWorks2008R2

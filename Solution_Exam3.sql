@@ -6,6 +6,9 @@
 ----- Final Answer -----
 ------------------------
 
+use AdventureWorks2008R2
+go
+
 begin
 	with cte_1 as (
 	select TerritoryID, Monthly, sum(Total_Sales) Total_Sales, month_OrderDate, year_OrderDate from (
@@ -17,15 +20,34 @@ begin
 	group by TerritoryID, month_OrderDate, year_OrderDate, Monthly 
 )
 
-select TerritoryID,Monthly,Total_Sales,DENSE_RANK() OVER(PARTITION BY month_OrderDate, year_OrderDate order by Total_Sales desc) Ranking from cte_1
-order by  year_OrderDate, month_OrderDate, Total_Sales desc 
+    select TerritoryID,Monthly,Total_Sales,DENSE_RANK() OVER(PARTITION BY month_OrderDate, year_OrderDate order by Total_Sales desc) Ranking from cte_1
+    order by  year_OrderDate, month_OrderDate, Total_Sales desc 
 end
 go
 
----------------------------
---------- TESTING ---------
----------------------------
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------
+--------- SCRATCH TESTING ---------
+-----------------------------------
 
 select * from Sales.SalesTerritory
 go

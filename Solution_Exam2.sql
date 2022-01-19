@@ -7,6 +7,9 @@ quantity)
 ----- Final Answer -----
 ------------------------
 
+use AdventureWorks2008R2
+go
+
 begin
 	with cte_1 as (
     select distinct a.BusinessEntityID, a.JobTitle, 
@@ -30,9 +33,27 @@ begin
 end
 go
 
----------------------------
---------- TESTING ---------
----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------
+--------- SCRATCH TESTING ---------
+-----------------------------------
 
 use AdventureWorks2008R2
 go
