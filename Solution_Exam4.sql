@@ -7,14 +7,16 @@ Query #4
 ------------------------
 
 
-
-
-
-
-
-
-
-
+begin
+	select a.CustomerID,c.TerritoryID,c.Name,c.[Group],d.SalesOrderID from Sales.Customer a 
+	--left join Person.Person b on a.PersonID = b.BusinessEntityID
+	left join Sales.SalesTerritory c on a.TerritoryID = c.TerritoryID
+	left join Sales.SalesOrderHeader d on a.CustomerID = d.CustomerID
+	where d.CustomerID is null
+	and datediff(dd,'2008-10-13 11:15:07.263',getdate()) >= 30
+	order by TerritoryID, CustomerID
+end
+go
 
 
 
@@ -106,8 +108,17 @@ go
 
 
 
+select datediff(dd,'2008-10-13 11:15:07.263',getdate())
 
-4. Show the list customers per territory who didnt place an order in any given 30-day range
+
+2022-01-20 10:32:37.983
+
+select getdate()
+
+select d.*,a.*,b.*,c.* from Sales.Customer a left join Sales.SalesOrderHeader b on a.CustomerID = b.CustomerID
+left join Sales.SalesTerritory c on a.TerritoryID = c.TerritoryID and b.TerritoryID = c.TerritoryID
+left join Person.Person d on a.PersonID = d.BusinessEntityID
+where b.CustomerID is null
 
 
 select d.*,b.*,a.*,c.*  from Sales.SalesOrderHeader a 
@@ -115,8 +126,16 @@ inner join Sales.Customer b on a.CustomerID = b.CustomerID
 inner join Sales.SalesTerritory c on a.TerritoryID = c.TerritoryID and b.TerritoryID = c.TerritoryID
 inner join Person.Person d on b.PersonID = d.BusinessEntityID
 
+
+select a.* from Sales.SalesTerritory a
+
 where OnlineOrderFlag = 1 and datediff(dd,a.DueDate,a.OrderDate) >= 30
 
+
+SELECT     Persons.LastName, Persons.FirstName
+FROM       Persons
+LEFT JOIN  Orders ON Persons.id = Orders.Person_id
+WHERE      Orders.Person_id IS NULL;
 
 
 select distinct d.PersonType from Sales.SalesOrderHeader a 
