@@ -11,20 +11,23 @@ Query #1
 use AdventureWorks2008R2
 go
 
-begin
-	with cte_1 as (select ProductID, Name, ProductNumber, ProductSubcategoryID, SellStartDate, SellEndDate, datename(month,SellEndDate)+' '+datename(year,SellEndDate) as MonthlySales
-	from Production.Product)
 
-	select count(a.ProductID) as Product_Count_Sold, b.Name as Product_SubCategory_Name, c.Name as Product_Category_Name, a.MonthlySales from
-	cte_1 a left join Production.ProductSubcategory b on a.ProductSubcategoryID = b.ProductSubcategoryID
-	left join Production.ProductCategory c on c.ProductCategoryID = b.ProductCategoryID
-	where a.MonthlySales is not null 
-	group by b.Name,c.Name,a.MonthlySales
-	order by MonthlySales,Product_Count_Sold
+begin
+	with cte_1 as (select Product_SubName, ProductCategoryID, ProductSubcategoryID, Product_Category, OrderDate_Year, OrderDate_Month, MonthlySales, sum(OrderQty) OrderQty_Total from (
+	select (b.Name) Product_SubName, b.ProductCategoryID, b.ProductSubcategoryID, (c.Name) Product_Category, year(e.OrderDate) OrderDate_Year, month(e.OrderDate) OrderDate_Month,
+	datename(month,e.OrderDate)+' '+datename(year,e.OrderDate) as MonthlySales, d.OrderQty from Production.Product a 
+	inner join Production.ProductSubcategory b on a.ProductSubcategoryID = b.ProductSubcategoryID
+	inner join Production.ProductCategory c on b.ProductCategoryID = c.ProductCategoryID
+	inner join Purchasing.PurchaseOrderDetail d on a.ProductID = d.ProductID
+	inner join Purchasing.PurchaseOrderHeader e on d.PurchaseOrderID = e.PurchaseOrderID
+	where e.Status = 4 ) bb
+	group by Product_SubName, ProductCategoryID, ProductSubcategoryID, Product_Category, OrderDate_Year, OrderDate_Month, MonthlySales)
+
+	select Product_Subname, ProductCategoryID, ProductSubcategoryID, Product_Category, MonthlySales, OrderQty_Total from (
+	select *,ROW_NUMBER() OVER(PARTITION BY OrderDate_Year, OrderDate_Month order by OrderQty_Total desc) row_num
+	from cte_1) aa where row_num = 1
 end
 go
-
-
 
 
 
