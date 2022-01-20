@@ -6,6 +6,8 @@ Query #4
 ----- Final Answer -----
 ------------------------
 
+use AdventureWorks2008R2
+go
 
 begin
 	select a.CustomerID,c.TerritoryID,c.Name,c.[Group],d.SalesOrderID from Sales.Customer a 
