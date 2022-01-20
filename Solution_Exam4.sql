@@ -13,7 +13,7 @@ begin
 	left join Sales.SalesTerritory c on a.TerritoryID = c.TerritoryID
 	left join Sales.SalesOrderHeader d on a.CustomerID = d.CustomerID
 	where d.CustomerID is null
-	and datediff(dd,'2008-10-13 11:15:07.263',getdate()) >= 30
+	and datediff(dd,a.ModifiedDate,getdate()) >= 30
 	order by TerritoryID, CustomerID
 end
 go
